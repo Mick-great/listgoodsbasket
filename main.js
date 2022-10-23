@@ -8,16 +8,27 @@ class ProductsList {
         this.allProducts = [];
         this._getProducts()
             .then(data => {
-                this.goods = data;
+                this.goods = [data];
                 this.render()
             });
     }
 }
 
-_getProducts() {
-    return fetch(`${API}/catalogData.json`)
-        .then(result => result.json())
-        .catch(error => {
-            console.log(error);
-        })
+_getProducts()
+fetch(`${API}/catalogData.json`)
+    .then(result => result.json())
+    .catch(error => {
+        console.log(error);
+    })
+
+
+render() {
+    const block = document.querySelector(this.container);
+    for (let product of this.goods) {
+        const productObj = new ProductItem(product);
+        this.allProducts.push(productObj);
+        block.insertAdjacentHTML('beforeend', productObj.render());
+    }
 }
+
+
